@@ -23,6 +23,7 @@ static func decode(value: Variant) -> Dictionary:
 		return normalize(null)
 	if value is Dictionary:
 		return normalize(value)
-	# Android getWidgetData can return JavaObject wrapping JSONObject.
-	var text: String = value.toString() if value is Object and value.has_method("toString") else str(value)
+	# JavaObject resolves Java methods dynamically; has_method("toString") is false even when the call works.
+	var text: String = value.toString() if value is Object else str(value)
 	return normalize(JSON.parse_string(text))
+
