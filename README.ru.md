@@ -29,7 +29,11 @@
 
 <img src="docs/screenshots/dice.png" width="220" alt="Кость"> <img src="docs/screenshots/coin.png" width="220" alt="Монетка">
 
-Скриншоты меню Android добавлены ниже после проверки на устройстве.
+Нативное меню управления окном Android и кнопка библиотеки:
+
+<img src="docs/screenshots/android-window-menu.png" width="540" alt="Управление окном через меню Android">
+
+<img src="docs/screenshots/find-more.png" width="360" alt="Кнопка перехода к библиотеке на GitHub">
 
 ## Как пользоваться демо
 

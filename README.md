@@ -29,7 +29,11 @@ These are renders of the actual demo scene, using its Russian and English interf
 
 <img src="docs/screenshots/dice.png" width="220" alt="Dice"> <img src="docs/screenshots/coin.png" width="220" alt="Coin">
 
-Android menu screenshots are included below after device verification.
+Native Android window controls and the library button:
+
+<img src="docs/screenshots/android-window-menu.png" width="540" alt="Native Android window controls">
+
+<img src="docs/screenshots/find-more.png" width="360" alt="Find more opens this repository">
 
 ## Start with the demo
 
