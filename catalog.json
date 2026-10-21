@@ -7,13 +7,13 @@
         "en": "API Demo",
         "ru": "Демо API"
       },
-      "version": "1.0.0",
+      "version": "1.0.1",
       "description": "Working examples of MyWidget controls, persistent and in-memory state, RU/EN, media, notifications, window APIs, and graceful shutdown. / Примеры API MyWidget: меню, память и сохранения, RU/EN, изображения, уведомления, окно и завершение.",
-      "downloadUrl": "https://github.com/baldej-droid/mywidget-library/raw/refs/heads/main/downloads/demo-1.0.0.zip",
+      "downloadUrl": "https://github.com/baldej-droid/mywidget-library/raw/refs/heads/main/downloads/demo-1.0.1.zip",
       "avatarUrl": "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/demo/avatar.png",
       "bannerUrl": "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/demo/banner.png",
-      "size": 38766,
-      "sha256": "3ddcdf1c2dc73bb8b3b1886d9a644890261043c25834e622599d12bbf3a6ae89"
+      "size": 38745,
+      "sha256": "2c53d08c345be343a851e5f7a002b47375be3184fd8a334514da352c5bb073b1"
     },
     {
       "magicId": "com.baldeeej.dice",

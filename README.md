@@ -6,7 +6,7 @@ Installable widgets and working Godot examples for MyWidget. Installation packag
 
 | Widget | Download | What it does |
 | --- | --- | --- |
-| API Demo 1.0.0 | [Install ZIP](downloads/demo-1.0.0.zip?raw=true) | Menus, session memory, saved JSON, RU/EN, media, notifications, window controls, and shutdown |
+| API Demo 1.0.1 | [Install ZIP](downloads/demo-1.0.1.zip?raw=true) | Menus, session memory, saved JSON, RU/EN, media, notifications, window controls, and shutdown |
 | Dice 1.1.2 | [Install ZIP](downloads/dice-1.1.2.zip?raw=true) | d2 coin and d4/d6/d8/d10/d12/d20/d100; engraved numbers, beveled edges, animated rolls |
 
 <img src="assets/demo/avatar.png" width="130" alt="API Demo icon"> <img src="assets/dice/avatar.png" width="130" alt="Dice icon">
@@ -118,7 +118,7 @@ Use `updateControlValue(name, string_value)` to change an existing control from 
 
 ### RAM and persistent data
 
-[`state.gd`](sources/demo/state.gd) defines defaults, validates loaded values, bounds the counter, normalizes slider steps, and converts an Android `JSONObject` wrapper through `toString()` before JSON parsing.
+[`state.gd`](sources/demo/state.gd) defines defaults, validates loaded values, bounds the counter, normalizes slider steps, and converts an Android `JSONObject` wrapper through `toString()` before JSON parsing. Java methods resolve dynamically: call `toString()` directly for an Object; `has_method("toString")` does not detect this Java method.
 
 ```gdscript
 plugin.saveWidgetData("api_demo_state_v1", JSON.stringify(state))
@@ -186,3 +186,5 @@ Use relative paths without traversal. Keep `meta.json` and the PCK at the root o
 Demo tests cover Android JSON conversion, corrupted/missing saves, RAM/persistent separation, auto-save, control updates, all menu types, locales, shutdown statuses, and gestures. Dice tests cover 240 rolls, all face orientations, engraving depth, bevel/material surfaces, highlight, and the result popup lifecycle. The build also launches each exported PCK. Android integration installs the demo through the same ZIP reader used by the app.
 
 `catalog.json` is a publication manifest, not an automatic update service. Its SHA-256 values describe the exact ZIP bytes in `downloads/`. The app's current **Find more** button opens this page; it does not silently install or update packages.
+
+
