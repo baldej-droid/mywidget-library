@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "widgets": [
+    {
+      "magicId": "com.baldeeej.api-demo",
+      "name": {
+        "en": "API Demo",
+        "ru": "Демо API"
+      },
+      "version": "1.0.0",
+      "description": "Working examples of MyWidget controls, persistent and in-memory state, RU/EN, media, notifications, window APIs, and graceful shutdown. / Примеры API MyWidget: меню, память и сохранения, RU/EN, изображения, уведомления, окно и завершение.",
+      "downloadUrl": "https://github.com/baldej-droid/mywidget-library/raw/refs/heads/main/downloads/demo-1.0.0.zip",
+      "avatarUrl": "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/demo/avatar.png",
+      "bannerUrl": "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/demo/banner.png",
+      "size": 38766,
+      "sha256": "3ddcdf1c2dc73bb8b3b1886d9a644890261043c25834e622599d12bbf3a6ae89"
+    },
+    {
+      "magicId": "com.baldeeej.dice",
+      "name": {
+        "en": "Dice",
+        "ru": "Кость"
+      },
+      "version": "1.1.2",
+      "description": "3D-кость: d4, d6, d8, d10, d12, d20, d100 и монетка d2. Нажмите для броска. / Tap to roll a 3D die or flip a coin.",
+      "downloadUrl": "https://github.com/baldej-droid/mywidget-library/raw/refs/heads/main/downloads/dice-1.1.2.zip",
+      "avatarUrl": "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/dice/avatar.png",
+      "bannerUrl": "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/dice/banner.png",
+      "size": 8883020,
+      "sha256": "cc33fe6e8538f8c7055550e407d49891a67327e24b86304f1ab88f03900c1c25"
+    }
+  ]
+}
