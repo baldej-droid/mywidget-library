@@ -1,0 +1,13 @@
+{
+  "name": {"en": "API Demo", "ru": "Демо API"},
+  "magicId": "com.baldeeej.api-demo",
+  "version": "1.0.0",
+  "author": "baldeeej",
+  "description": "Working examples of MyWidget controls, persistent and in-memory state, RU/EN, media, notifications, window APIs, and graceful shutdown. / Примеры API MyWidget: меню, память и сохранения, RU/EN, изображения, уведомления, окно и завершение.",
+  "created": "2026-10-21T00:00:00Z",
+  "updated": "2026-10-21T00:00:00Z",
+  "requestedWindowWidth": 360,
+  "requestedWindowHeight": 400,
+  "files": {"avatar": "avatar.png", "banner": "banner.png", "pck": "demo_widget.pck", "media": ["banner.png"]},
+  "properties": {"engine": "Godot 4.5.2", "tags": ["demo", "developer", "API", "2D"]}
+}
