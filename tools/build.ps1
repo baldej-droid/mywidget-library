@@ -39,6 +39,7 @@ try {
         } else {
             if ($RebakeDice) { Invoke-Godot @('--headless','--path',$sourceDir,'--script','tools/bake_models.gd') }
             Invoke-Godot @('--headless','--path',$sourceDir,'--script','tests/test_dice.gd')
+            Invoke-Godot @('--path',$sourceDir,'--script','tests/test_touch_render.gd')
             Invoke-Godot @('--path',$sourceDir,'--','--result','6','--capture',"$libraryRoot/docs/screenshots/dice.png")
             Invoke-Godot @('--path',$sourceDir,'--','--sides','2','--capture',"$libraryRoot/docs/screenshots/coin.png")
         }
