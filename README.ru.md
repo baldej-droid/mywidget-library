@@ -23,17 +23,17 @@
 
 ## Скриншоты
 
-Это рендеры настоящей сцены демо с русским и английским интерфейсом.
+Сцена демо и экраны Android ниже показаны на русском языке. В английской инструкции используются отдельные снимки на английском.
 
-<img src="docs/screenshots/demo-ru.png" width="270" alt="Демо на русском"> <img src="docs/screenshots/demo-en.png" width="270" alt="Демо на английском">
+<img src="docs/screenshots/demo-ru.png" width="270" alt="Демо на русском">
 
 <img src="docs/screenshots/dice.png" width="220" alt="Кость"> <img src="docs/screenshots/coin.png" width="220" alt="Монетка">
 
 Нативное меню управления окном Android и кнопка библиотеки:
 
-<img src="docs/screenshots/android-window-menu.png" width="540" alt="Управление окном через меню Android">
+<img src="docs/screenshots/android-window-menu-ru.png" width="540" alt="Управление окном через меню Android на русском">
 
-<img src="docs/screenshots/find-more.png" width="360" alt="Кнопка перехода к библиотеке на GitHub">
+<img src="docs/screenshots/find-more-ru.png" width="270" alt="Библиотека на русском с кнопкой Найти больше снизу слева">
 
 ## Как пользоваться демо
 
@@ -153,6 +153,37 @@ plugin.delWidgetData("api_demo_state_v1")
 | `refreshRenderView()` | Обновление поверхности рендерера |
 
 Демо переводит координаты сцены через фактический размер окна и логического viewport. Небольшая фиксированная область обновляется таймером; читать изображение framebuffer каждый кадр не нужно. Пример пропуска касаний восстанавливает ввод через три секунды. Пользователь по-прежнему может отключить взаимодействие в приложении.
+
+#### Регион клика вокруг 3D-модели
+
+Для модели на прозрачном фоне используйте границы видимых пикселей, как в Alicia Solid и [кости](sources/dice/main.gd). Фиксированный прямоугольник на всё окно перехватывает касания пустого места. `Image.get_used_rect()` возвращает минимальный прямоугольник вокруг непрозрачных пикселей. Передайте его Android через `setViewRegion(x, y, ширина, высота)`. Снаружи этого прямоугольника касания проходят к приложению под виджетом.
+
+Здесь три системы координат: текстура рендера, логическая сцена Godot и физическая поверхность Android. Для плагина переведите границы изображения в пиксели поверхности, а для проверки в `_input()` — в координаты сцены. Не привязывайте расчёт к исходным `360×420`: масштаб окна, изменение размера и режим растяжения могут менять эти соотношения.
+
+```gdscript
+var touch_region := Rect2()
+
+func update_touch_region() -> void:
+    var image := get_viewport().get_texture().get_image()
+    if image == null or image.is_empty():
+        return
+    var bounds := Rect2(image.get_used_rect())
+    var image_size := Vector2(image.get_size())
+    var canvas := get_viewport().get_visible_rect()
+    touch_region = Rect2(
+        canvas.position + bounds.position * canvas.size / image_size,
+        bounds.size * canvas.size / image_size
+    )
+    var scale_px := Vector2(get_window().size) / image_size
+    var start := (bounds.position * scale_px).floor()
+    var end := (bounds.end * scale_px).ceil()
+    plugin.setViewRegion(int(start.x), int(start.y),
+        int(end.x - start.x), int(end.y - start.y))
+```
+
+Включите взаимодействие через `plugin.makeClickPassthrough(true)`. Первый замер делайте после `RenderingServer.frame_post_draw`, затем обновляйте регион при движении и вращении модели. В кости используется таймер с интервалом 0,1 секунды: чтение изображения с GPU может задерживать рендер, поэтому выполнять его каждый кадр без необходимости не стоит. В `_input()` принимайте начало нажатия только при `touch_region.has_point(event.position)` и сохраняйте проверки перетаскивания и долгого нажатия. Тогда сама сцена тоже не будет принимать клики по старому увеличенному прямоугольнику.
+
+Этот API задаёт **прямоугольник**, а не точный силуэт: прозрачные углы и отверстия внутри границ остаются кликабельными. Полностью прозрачное изображение даёт регион нулевой площади. Текст, частицы и вылетающее число тоже влияют на границы, пока видны; если они не должны расширять область, считывайте отдельный viewport только с моделью. `setViewRegion` меняет лишь ввод. Начальный размер окна Android по-прежнему задаётся через `requestedWindowWidth` и `requestedWindowHeight` в `meta.json`.
 
 Хост присылает `on_window_moving(vx, vy)` при движении, а `on_window_moving_ended()` — после **каждого ACTION_UP**, даже неподвижного тапа. Сначала проверьте, было ли движение, и только потом считайте это завершением перетаскивания. Демо не увеличивает счётчик от свайпа или долгого нажатия и игнорирует синтетические события мыши от сенсорного ввода.
 

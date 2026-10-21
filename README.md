@@ -23,17 +23,17 @@ Installable widgets and working Godot examples for MyWidget. Installation packag
 
 ## Screenshots
 
-These are renders of the actual demo scene, using its Russian and English interfaces.
+The demo scene and Android screens below use English. The Russian guide has its own localized screenshots.
 
-<img src="docs/screenshots/demo-en.png" width="270" alt="English demo"> <img src="docs/screenshots/demo-ru.png" width="270" alt="Russian demo">
+<img src="docs/screenshots/demo-en.png" width="270" alt="English demo">
 
 <img src="docs/screenshots/dice.png" width="220" alt="Dice"> <img src="docs/screenshots/coin.png" width="220" alt="Coin">
 
 Native Android window controls and the library button:
 
-<img src="docs/screenshots/android-window-menu.png" width="540" alt="Native Android window controls">
+<img src="docs/screenshots/android-window-menu-en.png" width="540" alt="Native Android window controls in English">
 
-<img src="docs/screenshots/find-more.png" width="360" alt="Find more opens this repository">
+<img src="docs/screenshots/find-more-en.png" width="270" alt="English library screen with Find more at the bottom left">
 
 ## Start with the demo
 
@@ -153,6 +153,37 @@ The image picker sends a file path after Android copies the selected content int
 | `refreshRenderView()` | Request a surface refresh |
 
 The demo converts canvas coordinates using actual window and logical viewport sizes. It updates a small fixed rectangle on a timer, without reading back the framebuffer every frame. The pass-through example restores touch input after three seconds. A user can still disable widget interaction through the app.
+
+#### Touch region around a 3D model
+
+For a model on a transparent background, use the rendered image's alpha bounds, as in Alicia Solid and [Dice](sources/dice/main.gd). A fixed rectangle around the entire window intercepts touches in empty space. `Image.get_used_rect()` gives the smallest rectangle enclosing the visible pixels; send it to Android through `setViewRegion(x, y, width, height)`. Outside that rectangle, touches pass to the application underneath.
+
+There are three coordinate spaces: the rendered texture, the logical Godot canvas, and the physical Android surface. Convert the image bounds to surface pixels for the plugin, and to canvas coordinates for your own `_input()` hit test. Do not hard-code the initial `360×420` size: window scaling, resizing and stretch mode can change these ratios.
+
+```gdscript
+var touch_region := Rect2()
+
+func update_touch_region() -> void:
+    var image := get_viewport().get_texture().get_image()
+    if image == null or image.is_empty():
+        return
+    var bounds := Rect2(image.get_used_rect())
+    var image_size := Vector2(image.get_size())
+    var canvas := get_viewport().get_visible_rect()
+    touch_region = Rect2(
+        canvas.position + bounds.position * canvas.size / image_size,
+        bounds.size * canvas.size / image_size
+    )
+    var scale_px := Vector2(get_window().size) / image_size
+    var start := (bounds.position * scale_px).floor()
+    var end := (bounds.end * scale_px).ceil()
+    plugin.setViewRegion(int(start.x), int(start.y),
+        int(end.x - start.x), int(end.y - start.y))
+```
+
+Enable interaction with `plugin.makeClickPassthrough(true)`. Take the first measurement after `RenderingServer.frame_post_draw`, then update it as the model moves or rotates. Dice uses a 0.1-second timer: image readback can stall rendering, so avoid doing it every frame unnecessarily. In `_input()`, accept a press only when `touch_region.has_point(event.position)` and keep the drag/long-press checks. This prevents scene-level input from accepting the old, oversized rectangle.
+
+This API defines a **rectangle**, not a pixel-perfect silhouette: transparent corners and holes inside the bounds remain touchable. An empty transparent image produces a zero-area region. Text, particles and the result popup also contribute to the image bounds while visible; use a separate model-only viewport if those effects must not enlarge the region. `setViewRegion` changes input only; `requestedWindowWidth` and `requestedWindowHeight` in `meta.json` still control the initial Android window size.
 
 The host emits `on_window_moving(vx, vy)` during movement and `on_window_moving_ended()` on **every ACTION_UP**, including a stationary tap. Track whether movement occurred before treating the latter as a drag completion. The demo rejects drags and long presses as counter taps and ignores synthetic mouse events created from touch input.
 
