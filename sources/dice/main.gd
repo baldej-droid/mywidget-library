@@ -25,6 +25,7 @@ var press_time := 0
 var pressed := false
 var ignore_tap_until := 0
 var window_moved := false
+var touch_region := Rect2()
 
 func _ready() -> void:
 	rng.randomize()
@@ -51,11 +52,6 @@ func _ready() -> void:
 		plugin.on_graceful_end.connect(_on_end)
 		# The host's boolean means "enable the widget's touch region".
 		plugin.makeClickPassthrough(true)
-		var touch_timer := Timer.new()
-		touch_timer.wait_time = 0.4
-		touch_timer.timeout.connect(_update_touch_region)
-		add_child(touch_timer)
-		touch_timer.start()
 		plugin.updateNotificationImageFromWidget("banner.png")
 	var args := OS.get_cmdline_user_args()
 	if plugin == null and "--sides" in args:
@@ -68,6 +64,13 @@ func _ready() -> void:
 	_rebuild()
 	_publish_controls()
 	set_process(false)
+	if DisplayServer.get_name() != "headless":
+		var touch_timer := Timer.new()
+		touch_timer.wait_time = 0.1
+		touch_timer.timeout.connect(_update_touch_region)
+		add_child(touch_timer)
+		touch_timer.start()
+		_update_touch_region_after_draw()
 	if "--capture" in OS.get_cmdline_user_args():
 		_capture.call_deferred()
 
@@ -118,9 +121,26 @@ func ru() -> bool:
 	return locale.to_lower().begins_with("ru")
 
 func _update_touch_region() -> void:
-	# Android SurfaceControl expects physical surface pixels, not canvas coordinates.
-	var scale_px := Vector2(get_window().size) / Vector2(360, 420)
-	plugin.setViewRegion(int(22 * scale_px.x), int(35 * scale_px.y), int(316 * scale_px.x), int(365 * scale_px.y))
+	# Same alpha-bounds limiter as Alicia Solid, rather than a fixed window-sized box.
+	_apply_touch_image(get_viewport().get_texture().get_image())
+
+func _update_touch_region_after_draw() -> void:
+	await RenderingServer.frame_post_draw
+	_update_touch_region()
+
+func _apply_touch_image(image: Image) -> void:
+	if image == null or image.is_empty():
+		return
+	var rect := Rect2(image.get_used_rect())
+	var image_size := Vector2(image.get_size())
+	var canvas := get_viewport().get_visible_rect()
+	touch_region = Rect2(canvas.position + rect.position * canvas.size / image_size, rect.size * canvas.size / image_size)
+	if plugin != null:
+		# Texture, canvas and Android surface sizes can differ after stretching/scaling.
+		var scale_px := Vector2(get_window().size) / image_size
+		var start := (rect.position * scale_px).floor()
+		var end := (rect.end * scale_px).ceil()
+		plugin.setViewRegion(int(start.x), int(start.y), int(end.x-start.x), int(end.y-start.y))
 
 func _refresh_text() -> void:
 	if plugin != null:
@@ -397,7 +417,7 @@ func _input(event: InputEvent) -> void:
 
 func _tap(down: bool, point: Vector2) -> void:
 	if down:
-		pressed = Rect2(22, 35, 316, 365).has_point(point)
+		pressed = touch_region.has_point(point)
 		pressed_at = point
 		press_time = Time.get_ticks_msec()
 	else:
