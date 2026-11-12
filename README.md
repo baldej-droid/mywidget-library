@@ -35,6 +35,8 @@ Counts come from GitHub Releases `download_count`, not repository stars. These a
 
 ### Machine-readable catalog
 
+Descriptions in `catalog.json` and `meta.json` use a language map, for example `"description": {"en": "Tap to roll a die.", "ru": "Нажмите, чтобы бросить кость."}`. The app shows only its selected language and falls back to English. Legacy single-language strings remain supported; do not combine translations with a slash.
+
 Stable entry point: [catalog.json](https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/catalog.json). Format: `schemaVersion: 1`, `widgets` array. Fields: `magicId`, localized `name`, `author`, `category` (`games` or `examples`), `version`, `description`, `avatarUrl`, `downloadUrl`, `assetName`, `size` in bytes, and `sha256`. Ignore unknown fields. [Live statistics JSON](https://api.github.com/repos/baldej-droid/mywidget-library/releases/tags/library-v1): join `assets[].name` to `assetName` and read `download_count`. The app verifies size and SHA-256 before installation.
 
 ## Install a widget
