@@ -4,6 +4,16 @@
 
 Installable widgets and working Godot examples for MyWidget. Installation packages are in [`downloads/`](downloads/). Godot projects are in [`sources/`](sources/); you do not need them to install a widget.
 
+## What is this?
+
+**MyWidget is an Android app for running small interactive widgets over other apps.** A widget can be a floating companion, a miniature 3D scene, or a tool such as a die you tap to roll. You can move and resize its window, interact with it, and stop it from the app or its notification. These are floating overlays, rather than the standard widgets pinned to the Android home screen.
+
+**This repository is the widget library for that app.** It provides ready-to-install packages for users, readable Godot projects and API examples for creators, and a JSON catalog that powers **Find more** in MyWidget. For example, **Dice** is ready to play with; **API Demo** shows developers how to add controls, save state, use images, and manage the widget window.
+
+- **Want to try a widget?** You need the MyWidget Android app first. Then open **Library → Find more**, choose a widget, and confirm installation. You can also download a package from the table below and import it using **+** in Library.
+- **Want to make your own?** Start with [the demo project](sources/demo/) and the API guide below. The widgets use Godot 4.5.2.
+- **Just found this repository?** The ZIP files are add-on content, not the Android app or standalone APKs. Google Play availability is coming soon; there is no Play Store download link here yet.
+
 | Widget | Download | What it does |
 | --- | --- | --- |
 | API Demo 1.0.1 | [Install ZIP](https://github.com/baldej-droid/mywidget-library/releases/download/library-v1/demo-1.0.1.zip) | Menus, session memory, saved JSON, RU/EN, media, notifications, window controls, and shutdown |
