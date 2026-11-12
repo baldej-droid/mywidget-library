@@ -1,0 +1,54 @@
+name: Refresh download statistics
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/refresh-statistics.yml']
+  workflow_run:
+    workflows: ['Publish catalog packages']
+    types: [completed]
+permissions:
+  contents: write
+concurrency:
+  group: catalog-statistics
+  cancel-in-progress: false
+jobs:
+  refresh:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Read GitHub counters and publish snapshot
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, subprocess, datetime, base64
+          repo = 'baldej-droid/mywidget-library'
+          def api(*args):
+              return json.loads(subprocess.check_output(['gh', 'api', *args]))
+          release = api(f'repos/{repo}/releases/tags/library-v1')
+          snapshot = {
+              'schemaVersion': 1,
+              'updatedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              'source': 'github-release-assets',
+              'downloads': {a['name']: a['download_count'] for a in release['assets']}
+          }
+          assert snapshot['downloads']
+          assert all(isinstance(v, int) and v >= 0 for v in snapshot['downloads'].values())
+          endpoint = f'repos/{repo}/contents/statistics.json'
+          current = subprocess.run(['gh', 'api', endpoint], capture_output=True, text=True)
+          if current.returncode and '404' not in current.stderr:
+              raise RuntimeError(current.stderr)
+          body = {'message': 'Refresh GitHub download statistics',
+                  'content': base64.b64encode((json.dumps(snapshot, indent=2) + '\n').encode()).decode(),
+                  'branch': 'main'}
+          if current.returncode == 0:
+              body['sha'] = json.loads(current.stdout)['sha']
+          subprocess.run(['gh', 'api', '--method', 'PUT', endpoint, '--input', '-'],
+                         input=json.dumps(body), text=True, check=True, stdout=subprocess.DEVNULL)
+          PY
