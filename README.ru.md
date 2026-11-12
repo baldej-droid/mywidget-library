@@ -35,6 +35,8 @@
 
 ### Для парсеров
 
+Описания в `catalog.json` и `meta.json` задаются словарём языков: `"description": {"en": "Tap to roll a die.", "ru": "Нажмите, чтобы бросить кость."}`. Приложение показывает только выбранный язык, с английским как запасным. Старые описания-строки поддерживаются; переводы не нужно объединять через слеш.
+
 Стабильная точка входа: [catalog.json](https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/catalog.json). Формат: `schemaVersion: 1`, массив `widgets`. Поля: `magicId`, локализованное `name`, `author`, `category` (`games` или `examples`), `version`, `description`, `avatarUrl`, `downloadUrl`, `assetName`, `size` в байтах, `sha256`. Неизвестные поля можно игнорировать. [Живая статистика JSON](https://api.github.com/repos/baldej-droid/mywidget-library/releases/tags/library-v1): соедините `assets[].name` с `assetName` и читайте `download_count`. Перед установкой приложение проверяет размер и SHA-256.
 
 ## Установка
