@@ -61,6 +61,8 @@ try {
                 magicId = $manifest.magicId
                 name = $manifest.name
                 version = $manifest.version
+                created = $manifest.created
+                updated = $manifest.updated
                 description = $manifest.description
                 author = $manifest.author
                 category = $(if ($widgetName -eq 'dice') { 'games' } else { 'examples' })
