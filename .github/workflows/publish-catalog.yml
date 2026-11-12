@@ -1,0 +1,42 @@
+name: Publish catalog packages
+on:
+  push:
+    branches: [main]
+    paths: ['catalog.json', 'downloads/**', '.github/workflows/publish-catalog.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: publish-catalog
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify packages and publish missing assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, hashlib, pathlib, subprocess
+          catalog = json.loads(pathlib.Path('catalog.json').read_text(encoding='utf-8-sig'))
+          for widget in catalog['widgets']:
+              path = pathlib.Path('downloads') / widget['assetName']
+              data = path.read_bytes()
+              assert len(data) == widget['size']
+              assert hashlib.sha256(data).hexdigest() == widget['sha256']
+          repo = 'baldej-droid/mywidget-library'
+          tag = 'library-v1'
+          found = subprocess.run(['gh', 'release', 'view', tag, '--repo', repo], capture_output=True)
+          if found.returncode:
+              subprocess.run(['gh', 'release', 'create', tag, '--repo', repo, '--title', 'MyWidget library', '--notes', 'Installable widgets for MyWidget. Download a ZIP or use Find more in the app. Coming soon to Google Play Store.'], check=True)
+          release = json.loads(subprocess.check_output(['gh', 'api', f'repos/{repo}/releases/tags/{tag}']))
+          existing = {a['name']: a for a in release['assets']}
+          for widget in catalog['widgets']:
+              name = widget['assetName']
+              if name in existing:
+                  assert existing[name]['size'] == widget['size'], 'Publish changed bytes under a new version'
+                  continue
+              subprocess.run(['gh', 'release', 'upload', tag, str(pathlib.Path('downloads') / name), '--repo', repo], check=True)
+          PY

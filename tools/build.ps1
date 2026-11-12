@@ -62,7 +62,10 @@ try {
                 name = $manifest.name
                 version = $manifest.version
                 description = $manifest.description
-                downloadUrl = "https://github.com/baldej-droid/mywidget-library/raw/refs/heads/main/downloads/$widgetName-$($manifest.version).zip"
+                author = $manifest.author
+                category = $(if ($widgetName -eq 'dice') { 'games' } else { 'examples' })
+                assetName = "$widgetName-$($manifest.version).zip"
+                downloadUrl = "https://github.com/baldej-droid/mywidget-library/releases/download/library-v1/$widgetName-$($manifest.version).zip"
                 avatarUrl = "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/$widgetName/avatar.png"
                 bannerUrl = "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/$widgetName/banner.png"
                 size = (Get-Item $archivePath).Length

@@ -6,10 +6,24 @@
 
 | Виджет | Скачать | Возможности |
 | --- | --- | --- |
-| Демо API 1.0.1 | [Установочный ZIP](downloads/demo-1.0.1.zip?raw=true) | Меню, память сеанса, сохранение JSON, RU/EN, изображения, уведомления, окно и завершение |
-| Кость 1.1.3 | [Установочный ZIP](downloads/dice-1.1.3.zip?raw=true) | Монетка d2 и d4/d6/d8/d10/d12/d20/d100; углублённые цифры, фаски и анимация броска |
+| Демо API 1.0.1 | [Установочный ZIP](https://github.com/baldej-droid/mywidget-library/releases/download/library-v1/demo-1.0.1.zip) | Меню, память сеанса, сохранение JSON, RU/EN, изображения, уведомления, окно и завершение |
+| Кость 1.1.3 | [Установочный ZIP](https://github.com/baldej-droid/mywidget-library/releases/download/library-v1/dice-1.1.3.zip) | Монетка d2 и d4/d6/d8/d10/d12/d20/d100; углублённые цифры, фаски и анимация броска |
 
 <img src="assets/demo/avatar.png" width="130" alt="Аватар демо API"> <img src="assets/dice/avatar.png" width="130" alt="Аватар кости">
+
+## Каталог в приложении
+
+**Библиотека → Find more** открывает каталог внутри MyWidget: знакомые карточки, поиск по названию, автору и описанию, фильтры «Все / Игры / Примеры» и сортировка по скачиваниям или названию. Кнопка со значком GitHub открывает этот репозиторий. Нажмите карточку, чтобы скачать пакет и перейти к подтверждению установки.
+
+### Скачивания
+
+![Скачивания](https://img.shields.io/github/downloads/baldej-droid/mywidget-library/library-v1/total?label=downloads)
+
+Счётчики берутся из GitHub Releases (`download_count`), а не из звёзд репозитория. Это скачивания файлов, не уникальные пользователи или подтверждённые установки. Нули означают, что файл ещё не скачивали. При недоступности API приложение показывает «—», а не ложный ноль. Сортировка учитывает скачивания текущей версии.
+
+### Для парсеров
+
+Стабильная точка входа: [catalog.json](https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/catalog.json). Формат: `schemaVersion: 1`, массив `widgets`. Поля: `magicId`, локализованное `name`, `author`, `category` (`games` или `examples`), `version`, `description`, `avatarUrl`, `downloadUrl`, `assetName`, `size` в байтах, `sha256`. Неизвестные поля можно игнорировать. [Живая статистика JSON](https://api.github.com/repos/baldej-droid/mywidget-library/releases/tags/library-v1): соедините `assets[].name` с `assetName` и читайте `download_count`. Перед установкой приложение проверяет размер и SHA-256.
 
 ## Установка
 
@@ -221,3 +235,8 @@ func update_touch_region() -> void:
 
 
 
+
+
+---
+
+**Скоро в Google Play Store.**

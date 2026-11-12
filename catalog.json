@@ -9,11 +9,14 @@
       },
       "version": "1.0.1",
       "description": "Working examples of MyWidget controls, persistent and in-memory state, RU/EN, media, notifications, window APIs, and graceful shutdown. / Примеры API MyWidget: меню, память и сохранения, RU/EN, изображения, уведомления, окно и завершение.",
-      "downloadUrl": "https://github.com/baldej-droid/mywidget-library/raw/refs/heads/main/downloads/demo-1.0.1.zip",
+      "downloadUrl": "https://github.com/baldej-droid/mywidget-library/releases/download/library-v1/demo-1.0.1.zip",
       "avatarUrl": "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/demo/avatar.png",
       "bannerUrl": "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/demo/banner.png",
       "size": 38745,
-      "sha256": "2c53d08c345be343a851e5f7a002b47375be3184fd8a334514da352c5bb073b1"
+      "sha256": "2c53d08c345be343a851e5f7a002b47375be3184fd8a334514da352c5bb073b1",
+      "author": "baldej-droid",
+      "category": "examples",
+      "assetName": "demo-1.0.1.zip"
     },
     {
       "magicId": "com.baldeeej.dice",
@@ -23,11 +26,14 @@
       },
       "version": "1.1.3",
       "description": "3D-кость: d4, d6, d8, d10, d12, d20, d100 и монетка d2. Нажмите для броска. / Tap to roll a 3D die or flip a coin.",
-      "downloadUrl": "https://github.com/baldej-droid/mywidget-library/raw/refs/heads/main/downloads/dice-1.1.3.zip",
+      "downloadUrl": "https://github.com/baldej-droid/mywidget-library/releases/download/library-v1/dice-1.1.3.zip",
       "avatarUrl": "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/dice/avatar.png",
       "bannerUrl": "https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/assets/dice/banner.png",
       "size": 8883770,
-      "sha256": "6c90ca3b63f35766cdf821766fa6637da6cd0b90d55bc748784bdc3663ad3320"
+      "sha256": "6c90ca3b63f35766cdf821766fa6637da6cd0b90d55bc748784bdc3663ad3320",
+      "author": "baldej-droid",
+      "category": "games",
+      "assetName": "dice-1.1.3.zip"
     }
   ]
 }

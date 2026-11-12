@@ -6,10 +6,24 @@ Installable widgets and working Godot examples for MyWidget. Installation packag
 
 | Widget | Download | What it does |
 | --- | --- | --- |
-| API Demo 1.0.1 | [Install ZIP](downloads/demo-1.0.1.zip?raw=true) | Menus, session memory, saved JSON, RU/EN, media, notifications, window controls, and shutdown |
-| Dice 1.1.3 | [Install ZIP](downloads/dice-1.1.3.zip?raw=true) | d2 coin and d4/d6/d8/d10/d12/d20/d100; engraved numbers, beveled edges, animated rolls |
+| API Demo 1.0.1 | [Install ZIP](https://github.com/baldej-droid/mywidget-library/releases/download/library-v1/demo-1.0.1.zip) | Menus, session memory, saved JSON, RU/EN, media, notifications, window controls, and shutdown |
+| Dice 1.1.3 | [Install ZIP](https://github.com/baldej-droid/mywidget-library/releases/download/library-v1/dice-1.1.3.zip) | d2 coin and d4/d6/d8/d10/d12/d20/d100; engraved numbers, beveled edges, animated rolls |
 
 <img src="assets/demo/avatar.png" width="130" alt="API Demo icon"> <img src="assets/dice/avatar.png" width="130" alt="Dice icon">
+
+## Browse in the app
+
+**Library → Find more** opens an in-app catalog with the same widget cards, search by name, author and description, All / Games / Examples filters, and sorting by downloads or name. The GitHub icon opens this repository. Tap a card to download its package and review the installation dialog.
+
+### Downloads
+
+![Downloads](https://img.shields.io/github/downloads/baldej-droid/mywidget-library/library-v1/total?label=downloads)
+
+Counts come from GitHub Releases `download_count`, not repository stars. These are file downloads, not unique people or confirmed installations. Zero means no downloads yet. If the API is unavailable, the app shows “—” instead of a false zero. Popularity uses downloads of the current version.
+
+### Machine-readable catalog
+
+Stable entry point: [catalog.json](https://raw.githubusercontent.com/baldej-droid/mywidget-library/main/catalog.json). Format: `schemaVersion: 1`, `widgets` array. Fields: `magicId`, localized `name`, `author`, `category` (`games` or `examples`), `version`, `description`, `avatarUrl`, `downloadUrl`, `assetName`, `size` in bytes, and `sha256`. Ignore unknown fields. [Live statistics JSON](https://api.github.com/repos/baldej-droid/mywidget-library/releases/tags/library-v1): join `assets[].name` to `assetName` and read `download_count`. The app verifies size and SHA-256 before installation.
 
 ## Install a widget
 
@@ -19,7 +33,7 @@ Installable widgets and working Godot examples for MyWidget. Installation packag
 4. Check the name/version in the installation dialog and install it. Select the widget in Library, then press Play. Grant the overlay permission if Android asks.
 5. Return to Home to change its controls. Drag the overlay to move it; use the app's scale control to resize it. Stop it from the app or notification.
 
-**Find more** in the Android app opens this repository. A package contains `meta.json`, a root PCK, and its images. It is not an APK. Imported widgets run code, so install packages from authors you trust. Removing Dice from the app's prepack does not delete an already installed copy.
+**Find more** opens the in-app catalog; its GitHub button opens this repository. A package contains `meta.json`, a root PCK, and its images. It is not an APK. Imported widgets run code, so install packages from authors you trust. Removing Dice from the app's prepack does not delete an already installed copy.
 
 ## Screenshots
 
@@ -216,7 +230,12 @@ Use relative paths without traversal. Keep `meta.json` and the PCK at the root o
 
 Demo tests cover Android JSON conversion, corrupted/missing saves, RAM/persistent separation, auto-save, control updates, all menu types, locales, shutdown statuses, and gestures. Dice tests cover 240 rolls, all face orientations, engraving depth, bevel/material surfaces, highlight, and the result popup lifecycle. The build also launches each exported PCK. Android integration installs the demo through the same ZIP reader used by the app.
 
-`catalog.json` is a publication manifest, not an automatic update service. Its SHA-256 values describe the exact ZIP bytes in `downloads/`. The app's current **Find more** button opens this page; it does not silently install or update packages.
+`catalog.json` is a publication manifest, not an automatic update service. Its SHA-256 values describe the exact ZIP bytes in `downloads/`. **Find more** reads this manifest. Installing a package still requires confirmation; updates are never installed silently.
 
 
 
+
+
+---
+
+**Coming soon to Google Play Store.**
