@@ -27,6 +27,8 @@ Installable widgets and working Godot examples for MyWidget. Installation packag
 
 ### Downloads
 
+The app reads [statistics.json](statistics.json), a shared snapshot refreshed by GitHub Actions on an hourly schedule and after package publication. Scheduled runs may be delayed by GitHub. This avoids unauthenticated API limits on each device. Last confirmed values are saved on the device; if refreshing fails, they remain visible with their timestamp. Missing data is never shown as zero.
+
 ![Downloads](https://img.shields.io/github/downloads/baldej-droid/mywidget-library/library-v1/total?label=downloads)
 
 Counts come from GitHub Releases `download_count`, not repository stars. These are file downloads, not unique people or confirmed installations. The displayed value is GitHub’s reported count; a completed download is not guaranteed to appear immediately. This is not an installation counter. If the API is unavailable, the app shows “—” instead of a false zero. Popularity uses downloads of the current version.
