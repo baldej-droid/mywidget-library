@@ -1,9 +1,15 @@
 {
-  "name": {"en": "Dice", "ru": "Кость"},
+  "name": {
+    "en": "Dice",
+    "ru": "Кость"
+  },
   "version": "1.1.3",
   "magicId": "com.baldeeej.dice",
   "author": "baldeeej",
-  "description": "3D-кость: d4, d6, d8, d10, d12, d20, d100 и монетка d2. Нажмите для броска. / Tap to roll a 3D die or flip a coin.",
+  "description": {
+    "en": "Tap to roll a 3D die or flip a coin. Includes d4, d6, d8, d10, d12, d20, d100, and a d2 coin.",
+    "ru": "Нажмите, чтобы бросить 3D-кость или подбросить монетку. Доступны d4, d6, d8, d10, d12, d20, d100 и монетка d2."
+  },
   "created": "2026-10-21T00:00:00Z",
   "updated": "2026-10-21T00:00:00Z",
   "requestedWindowWidth": 360,
@@ -12,11 +18,17 @@
     "avatar": "avatar.png",
     "pck": "dice_widget.pck",
     "banner": "banner.png",
-    "media": ["banner.png"]
+    "media": [
+      "banner.png"
+    ]
   },
   "properties": {
     "engine": "Godot 4.5.2",
-    "tags": ["dice", "3D", "coin", "interactive"]
+    "tags": [
+      "dice",
+      "3D",
+      "coin",
+      "interactive"
+    ]
   }
 }
-
